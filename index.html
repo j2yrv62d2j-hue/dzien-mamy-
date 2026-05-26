@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Dla Mamy – od Dominisia</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #ffeef7;
+      font-family: "Segoe UI", sans-serif;
+      overflow: hidden;
+    }
+
+    img {
+      max-width: 340px;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: transform 0.15s ease;
+      z-index: 10;
+    }
+
+    img:active {
+      transform: scale(0.96);
+    }
+
+    .hint {
+      margin-top: 12px;
+      font-size: 1rem;
+      color: #b46a8c;
+      z-index: 10;
+    }
+
+    .message {
+      margin-top: 28px;
+      font-size: 1.8rem;
+      color: #e45a9b;
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ANIMOWANE SERDUSZKA */
+    .heart {
+      position: fixed;
+      top: -20px;
+      font-size: 24px;
+      color: #ff6fa8;
+      animation: fall linear forwards;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PODMIEŃ NA SWÓJ OBRAZEK -->
+  <img id="bouquet" src="bukiet.jpg" alt="Bukiet kwiatów">
+
+  <div class="hint">Kliknij kilka razy w bukiet… 🌸</div>
+
+  <div id="message" class="message">
+    Dla najlepszej Mamy na świecie od Dominisia
+  </div>
+
+  <script>
+    const bouquet = document.getElementById('bouquet');
+    const message = document.getElementById('message');
+    const hint = document.querySelector('.hint');
+
+    let clicks = 0;
+    const CLICKS_NEEDED = 3;
+
+    bouquet.addEventListener('click', () => {
+      clicks++;
+
+      if (clicks >= CLICKS_NEEDED) {
+        message.classList.add('show');
+        hint.textContent = "💖 Kocham Cię, Mamo!";
+        startHearts();
+      } else {
+        hint.textContent = `Kliknij jeszcze ${CLICKS_NEEDED - clicks} raz(y)…`;
+      }
+    });
+
+    /* FUNKCJA GENERUJĄCA SPADAJĄCE SERDUSZKA */
+    function startHearts() {
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.textContent = "💗";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = 3 + Math.random() * 2 + "s";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 5000);
+      }, 300);
+    }
+  </script>
+
+</body>
+</html>
